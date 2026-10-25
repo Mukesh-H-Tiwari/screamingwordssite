@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mukesh-h-tiwari.github.io/screamingwordssite/sitemap.xml

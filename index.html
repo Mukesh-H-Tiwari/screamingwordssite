@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#e8f4fd">
+    <meta name="description" content="Meet Screaming Words, a playful spelling game for kids. Drag friendly letters to spell words, then complete sentence puzzles across 10 chapters.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Screaming Words — a playful spelling game">
+    <meta property="og:description" content="Drag lively letter characters to spell words, then complete playful sentence puzzles.">
+    <meta property="og:image" content="https://mukesh-h-tiwari.github.io/screamingwordssite/assets/screenshots/game-home.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://mukesh-h-tiwari.github.io/screamingwordssite/">
+    <link rel="icon" type="image/png" href="assets/characters/letter-s.png">
+    <title>Screaming Words | Kids Spelling Game</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --sky: #fcfdff;
+        --sky-blue: #e8f4fd;
+        --sky-deep: #d4eaf7;
+        --ink: #2d2d2d;
+        --muted: #586f89;
+        --pink: #ff9ebb;
+        --pink-deep: #e06685;
+        --blue: #74b9ff;
+        --blue-deep: #4f91db;
+        --green: #55efc4;
+        --green-deep: #00b894;
+        --orange: #ff9f1c;
+        --purple: #a29bfe;
+        --purple-deep: #8076e0;
+        --red: #ff7675;
+        --radius-card: 32px;
+        --shadow: 0 20px 55px rgb(62 91 120 / 15%);
+        font-family: "Trebuchet MS", "Avenir Next", system-ui, sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse at 8% 18%, rgb(116 185 255 / 13%), transparent 23rem),
+          radial-gradient(ellipse at 94% 42%, rgb(255 158 187 / 12%), transparent 25rem),
+          var(--sky);
+      }
+      a { color: inherit; }
+      img { display: block; max-width: 100%; }
+      .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -5rem;
+        z-index: 10;
+        padding: .8rem 1rem;
+        background: white;
+        border-radius: 1rem;
+      }
+      .skip-link:focus { top: 1rem; }
+      .shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+      .topbar { padding: 20px 0; }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--purple-deep);
+        font-size: 1.18rem;
+        font-weight: 900;
+        text-decoration: none;
+      }
+      .brand img { width: 48px; height: 48px; object-fit: contain; }
+      .nav-links { display: flex; align-items: center; gap: 28px; }
+      .nav-links a {
+        color: var(--muted);
+        font-size: .95rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+      .nav-links a:hover, .nav-links a:focus-visible { color: var(--purple-deep); }
+      .nav-cta, .button {
+        display: inline-flex;
+        min-height: 50px;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 0 22px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--orange);
+        box-shadow: 0 5px 0 #e8890a, 0 9px 18px rgb(76 95 119 / 15%);
+        color: #fff;
+        font: inherit;
+        font-weight: 900;
+        text-decoration: none;
+        transition: transform .18s ease, box-shadow .18s ease;
+      }
+      .nav-cta:hover, .button:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #e8890a, 0 12px 22px rgb(76 95 119 / 18%); }
+      .nav-cta:active, .button:active { transform: translateY(3px); box-shadow: 0 2px 0 #e8890a; }
+      a:focus-visible { outline: 3px solid var(--purple-deep); outline-offset: 4px; }
+
+      .hero { padding: 54px 0 82px; }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr);
+        align-items: center;
+        gap: clamp(40px, 7vw, 90px);
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 15px;
+        border: 2px solid #d6ceff;
+        border-radius: 999px;
+        background: #fff;
+        color: var(--purple-deep);
+        font-size: .86rem;
+        font-weight: 900;
+        letter-spacing: .025em;
+      }
+      .eyebrow::before {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--green-deep);
+        content: "";
+      }
+      h1 {
+        max-width: 640px;
+        margin: 20px 0 18px;
+        color: #5649c4;
+        font-size: clamp(3.2rem, 6.1vw, 5.6rem);
+        font-weight: 1000;
+        letter-spacing: -.065em;
+        line-height: .98;
+      }
+      .hero-copy {
+        max-width: 540px;
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1.12rem, 1.8vw, 1.35rem);
+        font-weight: 700;
+        line-height: 1.7;
+      }
+      .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 30px; }
+      .button { background: var(--green-deep); box-shadow: 0 5px 0 #008d71, 0 9px 18px rgb(76 95 119 / 15%); }
+      .button:hover { box-shadow: 0 7px 0 #008d71, 0 12px 22px rgb(76 95 119 / 18%); }
+      .button:active { box-shadow: 0 2px 0 #008d71; }
+      .availability { color: #71849a; font-size: .9rem; font-weight: 800; }
+      .hero-art {
+        position: relative;
+        padding: 18px;
+        border: 3px solid white;
+        border-radius: 38px;
+        background: linear-gradient(150deg, #fff, #edf7ff 78%);
+        box-shadow: var(--shadow);
+        transform: rotate(1deg);
+      }
+      .hero-art::before, .hero-art::after {
+        position: absolute;
+        z-index: -1;
+        width: 76px;
+        height: 76px;
+        border: 12px solid rgb(255 215 0 / 70%);
+        border-radius: 50%;
+        content: "";
+      }
+      .hero-art::before { top: -29px; right: 25px; }
+      .hero-art::after { bottom: -26px; left: -24px; width: 38px; height: 38px; border-width: 9px; border-color: rgb(162 155 254 / 65%); }
+      .hero-shot {
+        width: 100%;
+        aspect-ratio: 2.05;
+        overflow: hidden;
+        border-radius: 24px;
+        background: var(--sky-blue);
+      }
+      .hero-shot img {
+        width: 109%;
+        height: 100%;
+        margin-left: -4.5%;
+        object-fit: cover;
+        object-position: center;
+      }
+      .character-float {
+        position: absolute;
+        right: -31px;
+        bottom: -50px;
+        width: clamp(90px, 13vw, 154px);
+        filter: drop-shadow(0 12px 12px rgb(49 63 83 / 20%));
+        animation: bob 3.8s ease-in-out infinite;
+      }
+      @keyframes bob { 0%, 100% { transform: translateY(0) rotate(5deg); } 50% { transform: translateY(-13px) rotate(-4deg); } }
+
+      .stats-wrap { padding: 0 0 88px; }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        overflow: hidden;
+        border: 3px solid white;
+        border-radius: 26px;
+        background: #fff;
+        box-shadow: 0 12px 32px rgb(62 91 120 / 9%);
+      }
+      .stat { padding: 25px 20px; text-align: center; }
+      .stat + .stat { border-left: 2px dashed #dce8f3; }
+      .stat strong { display: block; color: var(--purple-deep); font-size: clamp(1.8rem, 3vw, 2.55rem); font-weight: 1000; letter-spacing: -.04em; }
+      .stat span { display: block; margin-top: 5px; color: var(--muted); font-size: .92rem; font-weight: 800; }
+
+      .section { padding: 78px 0; }
+      .section-tint { background: linear-gradient(180deg, rgb(232 244 253 / 65%), rgb(252 253 255 / 20%)); }
+      .section-heading { max-width: 720px; margin: 0 auto 42px; text-align: center; }
+      .section-heading h2 { margin: 0; color: #4e438f; font-size: clamp(2rem, 4vw, 3.35rem); font-weight: 1000; letter-spacing: -.045em; }
+      .section-heading p { margin: 14px 0 0; color: var(--muted); font-size: 1.08rem; line-height: 1.7; }
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+      .step-card {
+        position: relative;
+        min-height: 235px;
+        padding: 28px;
+        overflow: hidden;
+        border: 3px solid #fff;
+        border-radius: var(--radius-card);
+        background: #fff;
+        box-shadow: 0 12px 30px rgb(62 91 120 / 9%);
+      }
+      .step-card:nth-child(1) { background: #fff3f7; }
+      .step-card:nth-child(2) { background: #eff8ff; }
+      .step-card:nth-child(3) { background: #effdf8; }
+      .step-number {
+        display: grid;
+        width: 47px;
+        height: 47px;
+        place-items: center;
+        border-radius: 16px;
+        background: var(--pink);
+        color: white;
+        font-size: 1.3rem;
+        font-weight: 1000;
+        box-shadow: 0 4px 0 var(--pink-deep);
+      }
+      .step-card:nth-child(2) .step-number { background: var(--blue); box-shadow: 0 4px 0 var(--blue-deep); }
+      .step-card:nth-child(3) .step-number { background: var(--green); box-shadow: 0 4px 0 var(--green-deep); }
+      .step-card h3 { margin: 22px 0 9px; color: #4e438f; font-size: 1.25rem; }
+      .step-card p { max-width: 31ch; margin: 0; color: var(--muted); line-height: 1.65; }
+      .step-decoration { position: absolute; right: 18px; bottom: -23px; width: 92px; opacity: .9; transform: rotate(-8deg); }
+
+      .screens { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 48px; }
+      .screens-copy h2 { margin: 0 0 17px; color: #4e438f; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 1000; letter-spacing: -.045em; }
+      .screens-copy p { color: var(--muted); font-size: 1.08rem; line-height: 1.75; }
+      .check-list { display: grid; gap: 14px; margin: 26px 0 0; padding: 0; list-style: none; }
+      .check-list li { display: flex; align-items: flex-start; gap: 12px; color: #4d6279; font-weight: 800; line-height: 1.5; }
+      .check { display: grid; flex: 0 0 27px; height: 27px; place-items: center; border-radius: 50%; background: var(--green); color: #08775f; font-size: .9rem; }
+      .screen-stack { position: relative; }
+      .screen-card {
+        padding: 13px;
+        border: 3px solid white;
+        border-radius: 28px;
+        background: white;
+        box-shadow: var(--shadow);
+      }
+      .screen-card img { width: 100%; aspect-ratio: 2.05; border-radius: 18px; object-fit: cover; }
+      .screen-card.secondary { position: absolute; right: -23px; bottom: -76px; width: 78%; transform: rotate(3deg); }
+      .screen-card.secondary img { aspect-ratio: 2.05; }
+      .screen-label { margin: 12px 5px 1px; color: var(--muted); font-size: .84rem; font-weight: 800; }
+
+      .content-band { padding: 80px 0 90px; }
+      .content-card {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 35px;
+        padding: clamp(30px, 6vw, 62px);
+        overflow: hidden;
+        border: 4px solid white;
+        border-radius: 38px;
+        background: linear-gradient(115deg, #eeebff, #f5f3ff 55%, #e8f4fd);
+        box-shadow: var(--shadow);
+      }
+      .content-card h2 { margin: 0; color: #5146a7; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 1000; letter-spacing: -.045em; }
+      .content-card p { max-width: 64ch; margin: 14px 0 0; color: var(--muted); font-size: 1.06rem; line-height: 1.7; }
+      .content-characters { display: flex; align-items: center; gap: 2px; }
+      .content-characters img { width: clamp(48px, 7vw, 77px); filter: drop-shadow(0 7px 6px rgb(49 63 83 / 13%)); }
+      .content-characters img:nth-child(2) { transform: translateY(-15px) rotate(-5deg); }
+      .content-characters img:nth-child(3) { transform: translateY(9px) rotate(5deg); }
+
+      .parents { padding: 5px 0 95px; }
+      .parents-inner { display: grid; grid-template-columns: 90px 1fr; align-items: center; gap: 26px; max-width: 850px; margin: auto; padding: 27px 34px; border: 2px solid #dbeaf5; border-radius: 26px; background: rgb(255 255 255 / 78%); }
+      .parents-inner img { width: 82px; }
+      .parents-inner h2 { margin: 0 0 8px; color: #5146a7; font-size: 1.2rem; }
+      .parents-inner p { margin: 0; color: var(--muted); line-height: 1.65; }
+      .parents-inner a { color: #5146a7; font-weight: 900; }
+      footer { padding: 30px 0; border-top: 1px solid #e3edf5; background: #fff; }
+      .footer-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; color: #74869a; font-size: .9rem; font-weight: 700; }
+      .footer-row nav { display: flex; flex-wrap: wrap; gap: 20px; }
+      .footer-row a { color: #574cb0; text-decoration: none; }
+      .footer-row a:hover { text-decoration: underline; }
+
+      @media (max-width: 820px) {
+        .hero { padding-top: 30px; }
+        .hero-grid { grid-template-columns: 1fr; gap: 42px; }
+        .hero-copy { max-width: 650px; }
+        .hero-art { max-width: 760px; margin: 0 auto; }
+        .steps { grid-template-columns: 1fr; }
+        .step-card { min-height: 190px; }
+        .screens { grid-template-columns: 1fr; gap: 38px; }
+        .screen-stack { max-width: 650px; width: 88%; margin: 0 auto 70px; }
+        .content-card { grid-template-columns: 1fr; }
+        .content-characters { position: absolute; right: 22px; bottom: 12px; opacity: .62; }
+        .content-card p { max-width: 52ch; padding-bottom: 52px; }
+      }
+      @media (max-width: 560px) {
+        .shell { width: min(100% - 28px, 1160px); }
+        .topbar { padding: 12px 0; }
+        .brand { gap: 7px; font-size: 1rem; }
+        .brand img { width: 39px; height: 39px; }
+        .nav { gap: 10px; }
+        .nav-links { gap: 14px; }
+        .nav-links a { font-size: .82rem; }
+        .nav-links .nav-cta { display: none; }
+        .hero { padding: 35px 0 55px; }
+        h1 { font-size: clamp(3rem, 15vw, 4rem); }
+        .hero-copy { font-size: 1.05rem; }
+        .hero-art { padding: 10px; border-radius: 27px; }
+        .hero-shot { border-radius: 18px; }
+        .character-float { right: -15px; bottom: -34px; }
+        .stats-wrap { padding-bottom: 58px; }
+        .stats { grid-template-columns: 1fr; }
+        .stat { padding: 17px; }
+        .stat + .stat { border-top: 2px dashed #dce8f3; border-left: 0; }
+        .section { padding: 58px 0; }
+        .step-card { padding: 23px; }
+        .screen-stack { width: 94%; }
+        .parents-inner { grid-template-columns: 56px 1fr; gap: 16px; padding: 21px; }
+        .parents-inner img { width: 55px; }
+        .content-characters img { width: 48px; }
+        .footer-row { align-items: flex-start; flex-direction: column; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="brand" href="#top" aria-label="Screaming Words home">
+          <img src="assets/characters/letter-s.png" alt="">
+          <span>Screaming Words</span>
+        </a>
+        <div class="nav-links">
+          <a href="#how-to-play">How to play</a>
+          <a href="#parents">For grown-ups</a>
+          <a class="nav-cta" href="#game">Meet the game <span aria-hidden="true">↘</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero shell" id="top">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">A colorful word adventure</span>
+            <h1>Little letters.<br>Big word fun.</h1>
+            <p class="hero-copy">Meet friendly letter characters, drag them into place to spell a word, and then use your words to finish a playful sentence.</p>
+            <div class="hero-actions">
+              <a class="button" href="#how-to-play">See how to play <span aria-hidden="true">↓</span></a>
+              <span class="availability">A free sample chapter is included</span>
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="hero-shot">
+              <img src="assets/screenshots/game-home.png" alt="Screaming Words game home screen with colorful chapter cards and friendly letter characters" fetchpriority="high">
+            </div>
+            <img class="character-float" src="assets/characters/letter-a.png" alt="" aria-hidden="true">
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-wrap shell" aria-label="Game content">
+        <div class="stats">
+          <div class="stat"><strong>10</strong><span>full-game chapters</span></div>
+          <div class="stat"><strong>560</strong><span>spelling challenges</span></div>
+          <div class="stat"><strong>560</strong><span>sentence puzzles</span></div>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="how-to-play">
+        <div class="shell">
+          <div class="section-heading">
+            <span class="eyebrow">Ready, set, spell!</span>
+            <h2>Three playful steps</h2>
+            <p>Simple actions bring each word to life, with cheerful letter friends along the way.</p>
+          </div>
+          <div class="steps">
+            <article class="step-card">
+              <span class="step-number" aria-hidden="true">1</span>
+              <h3>Meet the letters</h3>
+              <p>Look at the word challenge and spot the letter-shaped characters waiting below.</p>
+              <img class="step-decoration" src="assets/characters/letter-s.png" alt="" aria-hidden="true">
+            </article>
+            <article class="step-card">
+              <span class="step-number" aria-hidden="true">2</span>
+              <h3>Drag to spell</h3>
+              <p>Move each letter into place to build the word. Hear the word spoken when speech is enabled.</p>
+              <img class="step-decoration" src="assets/characters/letter-a.png" alt="" aria-hidden="true">
+            </article>
+            <article class="step-card">
+              <span class="step-number" aria-hidden="true">3</span>
+              <h3>Finish the sentence</h3>
+              <p>Choose words to fill the sentence blanks, then celebrate a puzzle well done.</p>
+              <img class="step-decoration" src="assets/characters/letter-w.png" alt="" aria-hidden="true">
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell" id="game">
+        <div class="screens">
+          <div class="screens-copy">
+            <span class="eyebrow">A new way to play with words</span>
+            <h2>Spell it.<br>Say it. Solve it.</h2>
+            <p>Every spelling challenge leads into a sentence puzzle. Kids can move at their own pace, enjoy lively letter reactions, and turn the sound effects, music, and spoken-word audio on or off.</p>
+            <ul class="check-list">
+              <li><span class="check" aria-hidden="true">✓</span><span>Drag-and-drop spelling with friendly letter characters</span></li>
+              <li><span class="check" aria-hidden="true">✓</span><span>Sentence-completion puzzles linked to the words</span></li>
+              <li><span class="check" aria-hidden="true">✓</span><span>Sound, music, and speech controls in settings</span></li>
+              <li><span class="check" aria-hidden="true">✓</span><span>Optional Google Play one-time purchases for more chapters</span></li>
+            </ul>
+          </div>
+          <div class="screen-stack">
+            <figure class="screen-card">
+              <img src="assets/screenshots/sentence-puzzle.png" alt="A sentence puzzle with blank spaces and letter-tile word choices" loading="lazy">
+              <figcaption class="screen-label">Pick the words that complete the sentence.</figcaption>
+            </figure>
+            <figure class="screen-card secondary">
+              <img src="assets/screenshots/spelling-celebration.png" alt="The game celebrates a correctly completed spelling challenge" loading="lazy">
+              <figcaption class="screen-label">Every solved word gets a happy moment.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-band shell">
+        <div class="content-card">
+          <div>
+            <span class="eyebrow">A little sample to start</span>
+            <h2>Try the first chapter free</h2>
+            <p>Explore a 10-level sample, then choose whether to unlock an individual chapter, a five-chapter pack, or the full game. Optional content is purchased once through Google Play; there is no subscription. Prices are shown by Google Play before purchase.</p>
+          </div>
+          <div class="content-characters" aria-hidden="true">
+            <img src="assets/characters/letter-s.png" alt="">
+            <img src="assets/characters/letter-a.png" alt="">
+            <img src="assets/characters/letter-w.png" alt="">
+          </div>
+        </div>
+      </section>
+
+      <section class="parents shell" id="parents">
+        <div class="parents-inner">
+          <img src="assets/characters/letter-w.png" alt="" aria-hidden="true">
+          <div>
+            <h2>A note for parents and guardians</h2>
+            <p>Purchase options are behind an in-game parent-facing math check. Learn what information the game and its services handle in our <a href="privacy-policy.html">Privacy Policy</a>. For support, email <a href="mailto:bytecode.creation@gmail.com">bytecode.creation@gmail.com</a>.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-row shell">
+        <span>© 2026 Bytecode · Screaming Words</span>
+        <nav aria-label="Footer navigation">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="mailto:bytecode.creation@gmail.com">Contact support</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
